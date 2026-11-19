@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PISA CBA ជីវវិទ្យា</title>
+<style>body{margin:0;font-family:'Kantumruy Pro','Noto Sans Khmer',sans-serif;background:#f6f7f8}#m{max-width:520px;margin:90px auto;padding:0 20px;text-align:center;color:#66707d;line-height:1.8}#m button{margin-top:14px;padding:10px 20px;border:0;border-radius:10px;background:#1f6b52;color:#fff;font:inherit;cursor:pointer}</style>
+</head>
+<body>
+<div id="m">កំពុងផ្ទុក PISA CBA ជីវវិទ្យា…</div>
+<script>
+(function () {
+  var EXEC = 'https://script.google.com/macros/s/AKfycbwumSW-XNpDOuVY4KgR-1fptGv26x7XKWSTvtItpPdpI9NIbY5z6S3YmTA78gtSRJi6zA/exec';
+  var q = location.search ? location.search.slice(1) + '&' : '';
+  // token ចូលដោយ Google ប្រើបានតែម្តង៖ ដកចេញពីរបារអាសយដ្ឋាន កុំឲ្យផ្ទុកឡើងវិញប្រើម្តងទៀត
+  if (/(^|&)gt=/.test(q) && history.replaceState) {
+    var keep = q.split('&').filter(function (x) { return x && !/^(gt|gr)=/.test(x); }).join('&');
+    history.replaceState(null, '', location.pathname + (keep ? '?' + keep : ''));
+  }
+  function fail(msg) {
+    var m = document.getElementById('m');
+    m.innerHTML = 'មិនអាចផ្ទុកកម្មវិធីបានទេ (' + msg + ')។<br>សូមពិនិត្យអ៊ីនធឺណិត ហើយព្យាយាមម្តងទៀត។<br><button onclick="location.reload()">ផ្ទុកឡើងវិញ</button>';
+  }
+  fetch(EXEC + '?' + q + 'view=shell', { credentials: 'omit', redirect: 'follow' })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(function (h) {
+      if (h.indexOf('id="app"') < 0) throw new Error('ទំព័រមិនពេញលេញ');
+      document.open(); document.write(h); document.close();
+    })
+    .catch(function (e) { fail(e.message || 'កំហុស'); });
+})();
+</script>
+</body>
+</html>
